@@ -28,7 +28,4 @@ const server = new ApolloServer({
 
 server.listen().then(async ({ url }) => {
     console.log(`server ready at ${url}`);
-
-    const users = await prisma.user.findMany();
-    console.log(users);
 });
