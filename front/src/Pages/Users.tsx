@@ -10,6 +10,9 @@ export const GET_USERS = gql`
                 last
             }
             email
+            login {
+                uuid
+            }
         }
     }
 `;
@@ -25,9 +28,11 @@ const Users = () => {
         <div>
             {data.users.map((user: any) => (
                 <User
+                    key={user.id}
                     email={user.email}
                     first={user.name.first}
                     last={user.name.last}
+                    uuid={user.login.uuid}
                 />
             ))}
         </div>

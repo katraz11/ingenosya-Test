@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User, Prisma } from "@prisma/client";
+import validator from "validator";
 
 const prisma = new PrismaClient();
 
@@ -12,5 +13,14 @@ export const Query = {
                 uuid,
             },
         });
+    },
+
+    passwordForce: async (_: any, { uuid }: any, ___: any) => {
+        const user = prisma.user.findUnique({
+            where: {
+                uuid,
+            },
+        });
+        console.log("this", user);
     },
 };

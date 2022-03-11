@@ -4,6 +4,7 @@ export const typeDefs = gql`
     type Query {
         users: [User!]!
         user(uuid: String!): User!
+        passwordForce(uuid: String!): Int
     }
 
     type User {
@@ -14,6 +15,7 @@ export const typeDefs = gql`
         picture: Picture!
         gender: String!
         location: Location!
+        userName: String!
     }
 
     type Location {

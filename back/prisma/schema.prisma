@@ -27,6 +27,7 @@ model User{
   thumbnail String      
   dobDate   String
   dobAge    String
+  password  String
   nat String
   locationID  Int
   picture   Picture[]
