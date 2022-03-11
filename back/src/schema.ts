@@ -2,7 +2,7 @@ import { gql } from "apollo-server";
 
 export const typeDefs = gql`
     type Query {
-        users: [User!]!
+        users(filter: UserInput!): [User!]!
         user(uuid: String!): User!
         passwordForce(uuid: String!): Int
     }
@@ -51,5 +51,29 @@ export const typeDefs = gql`
     type Registered {
         date: String
         age: Int
+    }
+
+    input UserFilter {
+        gender: String!
+        location: String!
+    }
+    input UserInput {
+        title: String
+        first: String
+        last: String
+        email: String
+        uuid: String
+        username: String
+        registeredDate: String
+        registeredAge: Int
+        large: String
+        medium: String
+        thumbnail: String
+        gender: String
+        street: String
+        city: String
+        postCode: Int
+        latidude: Float
+        longitude: Float
     }
 `;

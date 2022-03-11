@@ -3,8 +3,40 @@ import validator from "validator";
 
 const prisma = new PrismaClient();
 
+interface filterInterface {
+    title?: string;
+    first?: string;
+    last?: string;
+    email?: string;
+    uuid?: string;
+    username?: string;
+    registeredDate?: string;
+    registeredAge?: number;
+    large?: string;
+    medium?: string;
+    thumbnail?: string;
+    gender?: string;
+    street?: string;
+    city?: string;
+    postCode?: number;
+    latidude?: number;
+    longitude?: number;
+}
+
 export const Query = {
-    users: async (_: any, __: any, ___: any) => {
+    users: async (
+        _: any,
+        { filter }: { filter: filterInterface },
+        ___: any
+    ) => {
+        console.log(filter);
+
+        if (filter) {
+            const { street, city, postCode, ...userFilter } = filter;
+            return await prisma.user.findMany({
+                where: { ...userFilter, location: { city, street, postCode } },
+            });
+        }
         return await prisma.user.findMany();
     },
     user: async (_: any, { uuid }: any, ___: any) => {
