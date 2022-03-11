@@ -1,10 +1,12 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import User from "../components/User/User";
+import User from "../../components/User/User";
+import { Box } from "@material-ui/core";
+import useStyles from "./Styles";
 
 export const GET_USERS = gql`
     query {
-        users {
+        users(filter: {}) {
             name {
                 first
                 last
@@ -18,6 +20,7 @@ export const GET_USERS = gql`
 `;
 
 const Users = () => {
+    const classes = useStyles();
     const { data, error, loading } = useQuery(GET_USERS);
     if (error) return <p>error eee</p>;
     if (loading) return <p>loading ee</p>;
@@ -25,7 +28,7 @@ const Users = () => {
     console.log(data.users);
 
     return (
-        <div>
+        <Box className={classes.Box1}>
             {data.users.map((user: any) => (
                 <User
                     key={user.id}
@@ -35,7 +38,7 @@ const Users = () => {
                     uuid={user.login.uuid}
                 />
             ))}
-        </div>
+        </Box>
     );
 };
 
