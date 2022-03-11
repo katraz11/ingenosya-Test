@@ -16,11 +16,81 @@ export const Query = {
     },
 
     passwordForce: async (_: any, { uuid }: any, ___: any) => {
-        const user = prisma.user.findUnique({
-            where: {
-                uuid,
-            },
-        });
-        console.log("this", user);
+        const user = await prisma.user.findUnique({ where: { uuid } });
+
+        if (user && user.password) {
+            const contains2chars = (char: string) => {
+                const arr = char.split("");
+                if (arr.length <= 2) {
+                    console.log("nvok");
+                    return 0;
+                }
+                let i = 0;
+                let y = 0;
+
+                for (const x of arr) {
+                    if (validator.isAlphanumeric(x)) {
+                        i++;
+                    }
+                    if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(x)) {
+                        y++;
+                    }
+                }
+
+                if (i >= 2 && y > 0) {
+                    console.log("met");
+                    return 1;
+                } else {
+                    return 0;
+                }
+            };
+
+            if (validator.isNumeric(user.password)) {
+                return 1;
+            }
+
+            if (
+                validator.isAlpha(user.password) &&
+                (user.password == user.password.toLowerCase() ||
+                    user.password == user.password.toUpperCase())
+            ) {
+                return 2;
+            }
+            if (
+                validator.isAlphanumeric(user.password) &&
+                (user.password == user.password.toLowerCase() ||
+                    user.password == user.password.toUpperCase())
+            ) {
+                return 3;
+            }
+
+            if (validator.isAlpha(user.password)) {
+                return 4;
+            }
+            if (validator.isAlphanumeric(user.password)) {
+                return 5;
+            }
+
+            if (/^[^a-zA-Z0-9]+$/.test(user.password)) {
+                return 6;
+            }
+
+            if (/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(user.password)) {
+                if (
+                    /^(?=[a-z0-9!@#$%^&*()+=?]*[A-Z])(?=[A-Z0-9!@#$%^&*()+=?]*[a-z])[A-Za-z0-9!@#$%^&*()+=?]*$/.test(
+                        user.password
+                    )
+                ) {
+                    return 9;
+                }
+
+                if (contains2chars(user.password) == 1) {
+                    return 8;
+                }
+                return 7;
+            }
+        }
+
+        return 0;
     },
 };
