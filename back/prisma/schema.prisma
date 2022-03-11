@@ -18,12 +18,42 @@ model User{
   title     String
   first     String
   last      String
-  uuid      String
+  gender    String
+  uuid      String   @unique
   userName  String
   registeredDate     String
   registeredAge      Int
   email     String    @unique
-  thumbnail String
+  thumbnail String      
+  dobDate   String
+  dobAge    String
+  nat String
+  locationID  Int
+  picture   Picture[]
+  location    Location      @relation(fields: [locationID],references: [id])
+
+  
 
 }
+
+model Picture {
+  id        Int       @id @default(autoincrement()) 
+large String
+medium String
+ thumbnail String
+ userId Int
+  user    User      @relation(fields: [userId],references: [id])
+}
+
+model Location{
+  id        Int       @id @default(autoincrement())       
+  street    String
+  city      String
+  postCode  Int
+  latidude  Float
+  longitude Float
+  users     User[]
+}
+
+
 

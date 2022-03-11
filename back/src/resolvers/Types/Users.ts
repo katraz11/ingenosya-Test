@@ -25,8 +25,10 @@ export default {
     },
 
     picture: async (user: User, _: any, ctx: any): Promise<any> => {
-        return {
-            registeredDate: user.thumbnail,
-        };
+        return await prisma.picture.findUnique({ where: { id: user.id } });
+    },
+
+    location: async (user: User, _: any, ctx: any): Promise<any> => {
+        return await prisma.location.findUnique({ where: { id: user.id } });
     },
 };

@@ -6,4 +6,11 @@ export const Query = {
     users: async (_: any, __: any, ___: any) => {
         return await prisma.user.findMany();
     },
+    user: async (_: any, { uuid }: any, ___: any) => {
+        return await prisma.user.findUnique({
+            where: {
+                uuid,
+            },
+        });
+    },
 };
